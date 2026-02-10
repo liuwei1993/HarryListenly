@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  cover     String?
+  parentId  String?
+  parent   Category?   @relation("CategoryToCategory", fields: [parentId], references: [id])
+  children Category[]  @relation("CategoryToCategory")
+  albums   Album[]
+}
+
+model Album {
+  id             String   @id @default(cuid())
+  title          String
+  cover          String
+  description    String
+  author         String
+  categoryId     String
+  category       Category  @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  playCount      Int      @default(0)
+  subscribeCount Int      @default(0)
+  episodeCount   Int      @default(0)
+  updatedAt      DateTime @updatedAt
+  episodes       Episode[]
+}
+
+model Episode {
+  id        String   @id @default(cuid())
+  albumId   String
+  album     Album    @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  title     String
+  duration  Int
+  audioUrl  String
+  order     Int
+  createdAt DateTime @updatedAt
+}

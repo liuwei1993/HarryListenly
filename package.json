@@ -1,0 +1,21 @@
+{
+  "name": "harrylistenly",
+  "version": "1.0.0",
+  "private": true,
+  "description": "听书应用 + 管理后台",
+  "scripts": {
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:admin": "npm run dev --workspace=apps/admin",
+    "build:web": "npm run build --workspace=apps/web",
+    "build:admin": "npm run build --workspace=apps/admin",
+    "install:all": "./scripts/install.sh",
+    "dev:all": "./scripts/dev-all.sh",
+    "build:all": "./scripts/build.sh",
+    "db:push": "./scripts/db-push.sh",
+    "db:seed": "./scripts/db-seed.sh"
+  },
+  "workspaces": [
+    "apps/web",
+    "apps/admin"
+  ]
+}

@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Env (do not commit credentials)
+.env
+.env.local
+.env.*.local
+
+# Next
+.next/
+out/
+build/
+dist/
+
+# Prisma
+*.db
+*.db-journal
+
+# Debug / IDE
+npm-debug.log*
+.DS_Store
+.idea
+.vscode
+*.log
+
+# Vercel
+.vercel
