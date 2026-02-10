@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { prisma } from "../../lib/db";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -11,32 +13,53 @@ export default async function DashboardPage() {
   ]);
 
   return (
-    <main style={{ padding: "2rem", maxWidth: 900 }}>
-      <h1 style={{ marginBottom: "1.5rem" }}>工作台</h1>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginBottom: "2rem" }}>
-        <div style={{ padding: "1.5rem", background: "#f0f9ff", borderRadius: 8, border: "1px solid #bae6fd" }}>
-          <p style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>{albumCount}</p>
-          <p style={{ color: "#666", margin: "0.25rem 0 0" }}>专辑</p>
-        </div>
-        <div style={{ padding: "1.5rem", background: "#f0fdf4", borderRadius: 8, border: "1px solid #bbf7d0" }}>
-          <p style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>{episodeCount}</p>
-          <p style={{ color: "#666", margin: "0.25rem 0 0" }}>节目</p>
-        </div>
-        <div style={{ padding: "1.5rem", background: "#faf5ff", borderRadius: 8, border: "1px solid #e9d5ff" }}>
-          <p style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>{categoryCount}</p>
-          <p style={{ color: "#666", margin: "0.25rem 0 0" }}>分类</p>
-        </div>
+    <main className="mx-auto max-w-4xl space-y-8 p-6">
+      <div>
+        <h1 className="mb-2 text-2xl font-semibold tracking-tight">工作台</h1>
+        <p className="text-muted-foreground">概览与快捷入口</p>
       </div>
-      <p style={{ marginBottom: "1rem" }}>快捷入口</p>
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        <li style={{ marginBottom: "0.5rem" }}>
-          <Link href="/categories" style={{ color: "#2563eb" }}>分类管理</Link>
-        </li>
-        <li style={{ marginBottom: "0.5rem" }}>
-          <Link href="/albums" style={{ color: "#2563eb" }}>专辑管理</Link>
-        </li>
-      </ul>
-      <Link href="/" style={{ display: "inline-block", marginTop: "1.5rem", color: "#2563eb" }}>返回首页</Link>
+      <div className="grid gap-4 sm:grid-cols-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-3xl font-bold">{albumCount}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">专辑</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-3xl font-bold">{episodeCount}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">节目</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-3xl font-bold">{categoryCount}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">分类</p>
+          </CardContent>
+        </Card>
+      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">快捷入口</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-wrap gap-3">
+          <Button asChild variant="default">
+            <Link href="/categories">分类管理</Link>
+          </Button>
+          <Button asChild variant="secondary">
+            <Link href="/albums">专辑管理</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/">返回首页</Link>
+          </Button>
+        </CardContent>
+      </Card>
     </main>
   );
 }

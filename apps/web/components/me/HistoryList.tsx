@@ -18,8 +18,8 @@ export function HistoryList() {
 
   async function playItem(item: HistoryItem) {
     const [albumRes, episodesRes] = await Promise.all([
-      fetch(`/api/albums/${item.albumId}`),
-      fetch(`/api/albums/${item.albumId}/episodes`),
+      fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${item.albumId}`),
+      fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${item.albumId}/episodes`),
     ]);
     if (!albumRes.ok || !episodesRes.ok) return;
     const episodes = await episodesRes.json();

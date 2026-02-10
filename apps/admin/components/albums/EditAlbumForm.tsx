@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select } from "@/components/ui/select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type Category = { id: string; name: string };
 
@@ -27,7 +34,7 @@ export function EditAlbumForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`/api/albums/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
@@ -39,23 +46,66 @@ export function EditAlbumForm({
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label style={{ display: "block", marginBottom: "0.5rem" }}>标题</label>
-      <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} required style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }} />
-      <label style={{ display: "block", marginBottom: "0.5rem" }}>作者</label>
-      <input value={form.author} onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))} style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }} />
-      <label style={{ display: "block", marginBottom: "0.5rem" }}>分类</label>
-      <select value={form.categoryId} onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))} style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}>
-        {categories.map((c: Category) => (
-          <option key={c.id} value={c.id}>{c.name}</option>
-        ))}
-      </select>
-      <label style={{ display: "block", marginBottom: "0.5rem" }}>简介</label>
-      <textarea value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} rows={3} style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }} />
-      <label style={{ display: "block", marginBottom: "0.5rem" }}>封面 URL</label>
-      <input value={form.cover} onChange={(e) => setForm((f) => ({ ...f, cover: e.target.value }))} style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }} />
-      <button type="submit" style={{ padding: "0.5rem 1rem", marginRight: 8 }}>保存</button>
-      <a href="/albums" style={{ color: "#2563eb" }}>取消</a>
-    </form>
+    <Card>
+      <CardHeader>
+        <CardTitle>编辑专辑</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">标题</Label>
+            <Input
+              id="title"
+              value={form.title}
+              onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+              required
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="author">作者</Label>
+            <Input
+              id="author"
+              value={form.author}
+              onChange={(e) => setForm((f) => ({ ...f, author: e.target.value }))}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="category">分类</Label>
+            <Select
+              id="category"
+              value={form.categoryId}
+              onChange={(e) => setForm((f) => ({ ...f, categoryId: e.target.value }))}
+            >
+              {categories.map((c: Category) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="description">简介</Label>
+            <Textarea
+              id="description"
+              value={form.description}
+              onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              rows={3}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="cover">封面 URL</Label>
+            <Input
+              id="cover"
+              value={form.cover}
+              onChange={(e) => setForm((f) => ({ ...f, cover: e.target.value }))}
+            />
+          </div>
+          <div className="flex gap-3 pt-2">
+            <Button type="submit">保存</Button>
+            <Button type="button" variant="outline" asChild>
+              <Link href="/albums">取消</Link>
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

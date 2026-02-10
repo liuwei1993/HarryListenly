@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
-      <body style={{ margin: 0, fontFamily: "sans-serif" }}>{children}</body>
+      <body className="min-h-screen antialiased">{children}</body>
     </html>
   );
 }

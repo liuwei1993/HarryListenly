@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function NewCategoryPage() {
@@ -9,7 +10,7 @@ export default function NewCategoryPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch("/api/categories", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/categories`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
@@ -32,7 +33,7 @@ export default function NewCategoryPage() {
           style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}
         />
         <button type="submit" style={{ padding: "0.5rem 1rem", marginRight: 8 }}>保存</button>
-        <a href="/categories" style={{ color: "#2563eb" }}>取消</a>
+        <Link href="/categories" style={{ color: "#2563eb" }}>取消</Link>
       </form>
     </main>
   );

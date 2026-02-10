@@ -1,16 +1,17 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const LOGIN_PATH = "/login";
+const BASE_PATH = "/listenly-admin";
 
 export function middleware(req: NextRequest) {
   const session = req.cookies.get("admin_session")?.value;
-  const isLoginPage = req.nextUrl.pathname === LOGIN_PATH;
+  const pathname = req.nextUrl.pathname;
+  const isLoginPage = pathname === "/login";
   if (isLoginPage) {
-    if (session) return NextResponse.redirect(new URL("/", req.url));
+    if (session) return NextResponse.redirect(new URL(BASE_PATH + "/", req.url));
     return NextResponse.next();
   }
-  if (!session) return NextResponse.redirect(new URL(LOGIN_PATH, req.url));
+  if (!session) return NextResponse.redirect(new URL(BASE_PATH + "/login", req.url));
   return NextResponse.next();
 }
 

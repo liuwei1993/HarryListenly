@@ -11,7 +11,7 @@ type Cat = {
 export function CategoryList({ categories }: { categories: Cat[] }) {
   async function handleDelete(id: string) {
     if (!confirm("确定删除该分类？")) return;
-    const res = await fetch(`/api/categories/${id}`, { method: "DELETE" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/categories/${id}`, { method: "DELETE" });
     if (res.ok) window.location.reload();
     else alert((await res.json()).error || "删除失败");
   }

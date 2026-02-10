@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh">
-      <body style={{ margin: 0, paddingBottom: 56 }}>
+      <body className="min-h-screen pb-14">
         {children}
         <PlayerBar />
         <TabBar />

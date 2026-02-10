@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
   const [password, setPassword] = useState("");
@@ -11,7 +15,7 @@ export default function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ password }),
@@ -26,23 +30,32 @@ export default function LoginPage() {
   }
 
   return (
-    <main style={{ padding: "2rem", maxWidth: 400, margin: "4rem auto" }}>
-      <h1 style={{ marginBottom: "1.5rem" }}>管理后台登录</h1>
-      <form onSubmit={handleSubmit}>
-        <label style={{ display: "block", marginBottom: "0.5rem" }}>
-          密码
-        </label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }}
-        />
-        {error && <p style={{ color: "red", marginBottom: "1rem" }}>{error}</p>}
-        <button type="submit" style={{ padding: "0.5rem 1rem", cursor: "pointer" }}>
-          登录
-        </button>
-      </form>
+    <main className="flex min-h-screen items-center justify-center p-6">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-xl">管理后台登录</CardTitle>
+          <CardDescription>请输入密码以进入管理后台</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="password">密码</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="请输入密码"
+                autoComplete="current-password"
+              />
+            </div>
+            {error && (
+              <p className="text-sm text-destructive">{error}</p>
+            )}
+            <Button type="submit" className="w-full">登录</Button>
+          </form>
+        </CardContent>
+      </Card>
     </main>
   );
 }

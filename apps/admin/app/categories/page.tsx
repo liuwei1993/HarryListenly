@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "../../lib/db";
 import { CategoryList } from "../../components/categories/CategoryList";
+import { Button } from "@/components/ui/button";
 
 export const dynamic = "force-dynamic";
 
@@ -12,12 +13,12 @@ export default async function CategoriesPage() {
   });
 
   return (
-    <main style={{ padding: "1.5rem", maxWidth: 900 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-        <h1 style={{ margin: 0 }}>分类管理</h1>
-        <Link href="/categories/new" style={{ padding: "0.5rem 1rem", background: "#2563eb", color: "#fff", textDecoration: "none", borderRadius: 6 }}>
-          新增分类
-        </Link>
+    <main className="mx-auto max-w-4xl space-y-6 p-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-2xl font-semibold tracking-tight">分类管理</h1>
+        <Button asChild>
+          <Link href="/categories/new">新增分类</Link>
+        </Button>
       </div>
       <CategoryList categories={categories} />
     </main>

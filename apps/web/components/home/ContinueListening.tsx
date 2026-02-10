@@ -21,8 +21,8 @@ export function ContinueListening() {
     setLoading(true);
     try {
       const [albumRes, episodesRes] = await Promise.all([
-        fetch(`/api/albums/${progress.albumId}`),
-        fetch(`/api/albums/${progress.albumId}/episodes`),
+        fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${progress.albumId}`),
+        fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${progress.albumId}/episodes`),
       ]);
       if (!albumRes.ok || !episodesRes.ok) return;
       const album = await albumRes.json();

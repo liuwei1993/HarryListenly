@@ -13,7 +13,7 @@ type Episode = {
 export function EpisodeList({ albumId, episodes }: { albumId: string; episodes: Episode[] }) {
   async function handleDelete(eid: string) {
     if (!confirm("确定删除该节目？")) return;
-    const res = await fetch(`/api/albums/${albumId}/episodes/${eid}`, { method: "DELETE" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${albumId}/episodes/${eid}`, { method: "DELETE" });
     if (res.ok) window.location.reload();
     else alert("删除失败");
   }

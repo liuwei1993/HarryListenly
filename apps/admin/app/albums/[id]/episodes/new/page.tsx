@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter, useParams } from "next/navigation";
 
 export default function NewEpisodePage() {
@@ -13,7 +14,7 @@ export default function NewEpisodePage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const res = await fetch(`/api/albums/${albumId}/episodes`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${albumId}/episodes`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, duration: Number(duration), audioUrl }),
@@ -35,7 +36,7 @@ export default function NewEpisodePage() {
         <label style={{ display: "block", marginBottom: "0.5rem" }}>音频 URL（相对路径如 /audio/xxx.mp3）</label>
         <input value={audioUrl} onChange={(e) => setAudioUrl(e.target.value)} placeholder="/audio/album1/ep1.mp3" style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }} />
         <button type="submit" style={{ padding: "0.5rem 1rem", marginRight: 8 }}>保存</button>
-        <a href={`/albums/${albumId}/episodes`} style={{ color: "#2563eb" }}>取消</a>
+        <Link href={`/albums/${albumId}/episodes`} style={{ color: "#2563eb" }}>取消</Link>
       </form>
     </main>
   );

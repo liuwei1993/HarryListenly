@@ -13,7 +13,7 @@ type Album = {
 export function AlbumList({ albums }: { albums: Album[] }) {
   async function handleDelete(id: string) {
     if (!confirm("确定删除该专辑？其下节目将一并删除。")) return;
-    const res = await fetch(`/api/albums/${id}`, { method: "DELETE" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums/${id}`, { method: "DELETE" });
     if (res.ok) window.location.reload();
     else alert("删除失败");
   }

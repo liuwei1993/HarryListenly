@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { prisma } from "@/lib/db";
 import { ContinueListening } from "@/components/home/ContinueListening";
+import { Card, CardContent } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
 
@@ -12,40 +13,36 @@ export default async function HomePage() {
   });
 
   return (
-    <main style={{ padding: "1rem", maxWidth: 480, margin: "0 auto" }}>
+    <main className="mx-auto max-w-lg px-4 py-4">
       <ContinueListening />
-      <h1 style={{ fontSize: "1.25rem", marginBottom: "1rem" }}>精选</h1>
-      <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      <h1 className="mb-4 text-xl font-semibold tracking-tight">精选</h1>
+      <ul className="space-y-3">
         {albums.map((a: (typeof albums)[number]) => (
-          <li key={a.id} style={{ marginBottom: "1rem" }}>
-            <Link
-              href={`/album/${a.id}`}
-              style={{
-                display: "flex",
-                gap: "0.75rem",
-                textDecoration: "none",
-                color: "inherit",
-              }}
-            >
-              <img
-                src={a.cover || "/placeholder.png"}
-                alt=""
-                width={80}
-                height={80}
-                style={{ objectFit: "cover", borderRadius: 8, flexShrink: 0 }}
-              />
-              <div style={{ minWidth: 0 }}>
-                <p style={{ fontWeight: 600, margin: 0 }}>{a.title}</p>
-                <p style={{ fontSize: "0.875rem", color: "#666", margin: "0.25rem 0 0" }}>
-                  {a.author} · {a.category?.name}
-                </p>
-              </div>
+          <li key={a.id}>
+            <Link href={`/album/${a.id}`} className="block">
+              <Card className="overflow-hidden transition-colors hover:bg-muted/50">
+                <CardContent className="flex gap-4 p-0">
+                  <img
+                    src={a.cover || "/placeholder.png"}
+                    alt=""
+                    width={96}
+                    height={96}
+                    className="h-24 w-24 shrink-0 object-cover"
+                  />
+                  <div className="min-w-0 flex-1 py-4 pr-4">
+                    <p className="font-semibold leading-tight">{a.title}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {a.author} · {a.category?.name}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             </Link>
           </li>
         ))}
       </ul>
       {albums.length === 0 && (
-        <p style={{ color: "#666" }}>暂无专辑，请先在管理后台添加或执行种子数据。</p>
+        <p className="text-muted-foreground">暂无专辑，请先在管理后台添加或执行种子数据。</p>
       )}
     </main>
   );

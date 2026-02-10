@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 type Category = { id: string; name: string };
@@ -15,7 +16,7 @@ export default function NewAlbumPage() {
   const router = useRouter();
 
   useEffect(() => {
-    fetch("/api/categories")
+    fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/categories`)
       .then((r) => r.json())
       .then(setCategories)
       .then(() => {});
@@ -27,7 +28,7 @@ export default function NewAlbumPage() {
       alert("请选择分类");
       return;
     }
-    const res = await fetch("/api/albums", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/albums`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, author, description, cover, categoryId }),
@@ -59,7 +60,7 @@ export default function NewAlbumPage() {
         <label style={{ display: "block", marginBottom: "0.5rem" }}>封面 URL</label>
         <input value={cover} onChange={(e) => setCover(e.target.value)} style={{ width: "100%", padding: "0.5rem", marginBottom: "1rem" }} />
         <button type="submit" style={{ padding: "0.5rem 1rem", marginRight: 8 }}>保存</button>
-        <a href="/albums" style={{ color: "#2563eb" }}>取消</a>
+        <Link href="/albums" style={{ color: "#2563eb" }}>取消</Link>
       </form>
     </main>
   );

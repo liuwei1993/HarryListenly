@@ -42,7 +42,7 @@ function SearchContent() {
     setLoading(true);
     setSearched(true);
     try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(term)}`);
+      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_PATH || ""}/api/search?q=${encodeURIComponent(term)}`);
       const data = await res.json();
       setAlbums(data.albums || []);
       setEpisodes(data.episodes || []);
